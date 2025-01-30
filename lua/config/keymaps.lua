@@ -17,6 +17,9 @@ vim.keymap.set("n", "L", "g_", { noremap = false, silent = true })
 -- Paste quickly in insert mode
 vim.keymap.set("i", "<C-r><C-r>", "<C-r>*", default_opts)
 
+-- " Reselect last pasted text
+vim.keymap.set('n', 'gV','`[v`]',  { noremap = true, silent = true , desc = "Reselect last pasted text" })
+
 -- Map some keys for azerty keyboard
 vim.keymap.set("n", "µ", "#", { noremap = false, silent = true })
 vim.keymap.set("n", "²", ".", { noremap = false, silent = true })
@@ -40,26 +43,11 @@ vim.cmd([[
     ]])
 
 -- Remove the Windows ^M - when the encodings gets messed up
-vim.keymap.set(
-  "n",
-  "<Leader>m",
-  [[mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm]],
-  { noremap = false, silent = true, desc = "Remove special char ^M" }
-)
+vim.keymap.set( "n", "<Leader>m", [[mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm]], { noremap = false, silent = true, desc = "Remove special char ^M" })
 
 --Alternative to unimpaired to add spaces above or below
-vim.keymap.set(
-  "n",
-  "gO",
-  "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>",
-  { desc = "Add blank line(s) above" }
-)
-vim.keymap.set(
-  "n",
-  "go",
-  "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>",
-  { desc = "Add blank line(s) below" }
-)
+vim.keymap.set( "n", "gO", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>", { desc = "Add blank line(s) above" })
+vim.keymap.set( "n", "go", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>", { desc = "Add blank line(s) below" })
 
 ------------------------------------------------------------
 -- Search and Replace normal and visual mode
@@ -69,12 +57,7 @@ vim.keymap.set("n", "<leader>r", ":%s/", { noremap = true, silent = false, desc 
 vim.keymap.set("x", "<leader>r", [[:s/]], { noremap = true, silent = false, desc = "Search and replace" })
 
 -- replace the current text in search register
-vim.keymap.set(
-  "n",
-  "<leader>R",
-  [[:%s///g<Left><Left>]],
-  { noremap = true, silent = false, desc = "Replace Search register" }
-)
+vim.keymap.set( "n", "<leader>R", [[:%s///g<Left><Left>]], { noremap = true, silent = false, desc = "Replace Search register" })
 
 -- Put visual selection in search register
 function VisualSelection(direction, extra_filter)
@@ -94,3 +77,23 @@ end
 
 -- Search and replace the selected text
 vim.keymap.set("x", "<leader>R", [[:<C-u>lua VisualSelection('replace','')<CR>]], default_opts)
+
+-- QuickFix window toggle function
+function QuickFixToggle()
+  local quickfix_exists = function()
+    for _, win in pairs(vim.fn.getwininfo()) do
+      if win.quickfix == 1 then
+        return true
+      end
+    end
+    return false
+  end
+
+  if quickfix_exists() then
+    vim.cmd("cclose")
+  else
+    vim.cmd("copen")
+  end
+end
+-- Toogle quickfix windows
+vim.keymap.set( "n", "<leader>a", ":lua QuickFixToggle()<cr>", { noremap = true, silent = true, desc = "Toggle Quickfix" })
