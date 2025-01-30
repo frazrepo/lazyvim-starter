@@ -1,12 +1,11 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
--- Customizations
 
 local default_opts = { noremap = true, silent = true }
 -- buffers
 vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Previous Buffer" })
 
 -- Backspace to navigate to alternate buffer
 vim.keymap.set("n", "<bs>", "<c-^>", { noremap = false, silent = true })
@@ -62,8 +61,18 @@ vim.keymap.set(
 )
 
 --Alternative to unimpaired to add spaces above or below
-vim.keymap.set("n", "gO", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>")
-vim.keymap.set("n", "go", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>")
+vim.keymap.set(
+  "n",
+  "gO",
+  "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>",
+  { desc = "Add blank line(s) above" }
+)
+vim.keymap.set(
+  "n",
+  "go",
+  "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>",
+  { desc = "Add blank line(s) below" }
+)
 
 ------------------------------------------------------------
 -- Search and Replace normal and visual mode
