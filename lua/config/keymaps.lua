@@ -40,26 +40,6 @@ vim.keymap.set(
   { noremap = false, silent = true, desc = "Remove special char ^M" }
 )
 
--- Quickly open a txt, markdown and sql buffer for scribble
-vim.keymap.set(
-  "n",
-  "<leader>x",
-  ":e " .. vim.fn.stdpath("data") .. "/scratch/buffer.txt<CR>",
-  { noremap = true, silent = true, desc = "Edit txt scratch buffer" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>d",
-  ":e " .. vim.fn.stdpath("data") .. "/scratch/buffer.md<CR>",
-  { noremap = true, silent = true, desc = "Edit markdown scratch buffer" }
-)
-vim.keymap.set(
-  "n",
-  "<leader>s",
-  ":e " .. vim.fn.stdpath("data") .. "/scratch/buffer.sql<CR>",
-  { noremap = true, silent = true, desc = "Edit sql scratch buffer" }
-)
-
 --Alternative to unimpaired to add spaces above or below
 vim.keymap.set(
   "n",
@@ -78,16 +58,32 @@ vim.keymap.set(
 -- Search and Replace normal and visual mode
 ------------------------------------------------------------
 -- search replace
--- vim.keymap.set("n", "<leader>fr", ":%s/", { noremap = true, silent = false, desc = "Search and replace" })
--- vim.keymap.set("x", "<leader>fr", [[:s/]], { noremap = true, silent = false, desc = "Search and replace" })
+vim.keymap.set("n", "<leader>r", ":%s/", { noremap = true, silent = false, desc = "Search and replace" })
+vim.keymap.set("x", "<leader>r", [[:s/]], { noremap = true, silent = false, desc = "Search and replace" })
 
 -- replace the current text in search register
 vim.keymap.set(
   "n",
-  "<leader>r",
+  "<leader>R",
   [[:%s///g<Left><Left>]],
-  { noremap = true, silent = false, desc = "Replace search register" }
+  { noremap = true, silent = false, desc = "Replace Search register" }
 )
 
+-- Put visual selection in search register
+function VisualSelection(direction, extra_filter)
+  local saved_reg = vim.fn.getreg('"')
+  vim.cmd("normal! vgvy")
+
+  local pattern = vim.fn.escape(vim.fn.getreg('"'), "\\/.*'$^~[]")
+  pattern = vim.fn.substitute(pattern, "\n$", "", "")
+
+  if direction == "replace" then
+    vim.fn.feedkeys(":" .. "%s" .. "/" .. pattern .. "/")
+  end
+
+  vim.fn.setreg("/", pattern)
+  vim.fn.setreg('"', saved_reg)
+end
+
 -- Search and replace the selected text
--- vim.keymap.set("x", "<leader>r", [[:<C-u>lua FrazVim.VisualSelection('replace','')<CR>]], default_opts)
+vim.keymap.set("x", "<leader>R", [[:<C-u>lua VisualSelection('replace','')<CR>]], default_opts)
