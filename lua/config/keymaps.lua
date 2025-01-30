@@ -31,6 +31,13 @@ vim.keymap.set("n", "c*", "*Ncgn", default_opts)
 vim.keymap.set("n", "c#", "#NcgN", default_opts)
 vim.keymap.set("n", "cg*", "g*Ncgn", default_opts)
 vim.keymap.set("n", "cg#", "g#Ncgn", default_opts)
+-- Experimental cn - New mappings
+-- like c* but selection word in visual mode first
+vim.keymap.set("n", "cn", "*``cgn", default_opts)
+vim.cmd([[
+        let g:mc = "y/\\V\<C-r>=escape(@\", '/')\<CR>\<CR>"
+        vnoremap <expr> cn g:mc . "``cgn"
+    ]])
 
 -- Remove the Windows ^M - when the encodings gets messed up
 vim.keymap.set(
