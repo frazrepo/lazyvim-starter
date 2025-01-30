@@ -3,6 +3,12 @@
 -- Add any additional keymaps here
 
 local default_opts = { noremap = true, silent = true }
+
+
+--windows
+vim.keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
+vim.keymap.set("n", "<leader>_", "<C-W>v", { desc = "Split Window Right", remap = true })
+
 -- buffers
 vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<cr>", { desc = "Previous Buffer" })
