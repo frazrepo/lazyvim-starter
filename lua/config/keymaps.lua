@@ -7,7 +7,7 @@ local default_opts = { noremap = true, silent = true }
 
 --windows
 vim.keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
-vim.keymap.set("n", "<leader>_", "<C-W>v", { desc = "Split Window Right", remap = true })
+vim.keymap.set("n", "<leader>=", "<C-W>v", { desc = "Split Window Right", remap = true })
 
 -- buffers
 vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
@@ -59,11 +59,11 @@ vim.keymap.set( "n", "go", "<Cmd>call append(line('.'),     repeat([''], v:count
 -- Search and Replace normal and visual mode
 ------------------------------------------------------------
 -- search replace
-vim.keymap.set("n", "<leader>r", ":%s/", { noremap = true, silent = false, desc = "Search and replace" })
-vim.keymap.set("x", "<leader>r", [[:s/]], { noremap = true, silent = false, desc = "Search and replace" })
+vim.keymap.set("n", "<leader>r", ":%s/", { noremap = true, silent = false, desc = "Search and replace (local)" })
+vim.keymap.set("x", "<leader>r", [[:s/]], { noremap = true, silent = false, desc = "Search and replace (local)" })
 
 -- replace the current text in search register
-vim.keymap.set( "n", "<leader>R", [[:%s///g<Left><Left>]], { noremap = true, silent = false, desc = "Replace Search register" })
+vim.keymap.set( "n", "<leader>R", [[:%s/<C-r>//]], { noremap = true, silent = false, desc = "Replace Search register" })
 
 -- Put visual selection in search register
 function VisualSelection(direction, extra_filter)
@@ -82,7 +82,7 @@ function VisualSelection(direction, extra_filter)
 end
 
 -- Search and replace the selected text
-vim.keymap.set("x", "<leader>R", [[:<C-u>lua VisualSelection('replace','')<CR>]], default_opts)
+vim.keymap.set("x", "<leader>R", [[:<C-u>lua VisualSelection('replace','')<CR>]], {noremap = true, silent = false, desc = "Replace search selection (local)" })
 
 -- QuickFix window toggle function
 function QuickFixToggle()
