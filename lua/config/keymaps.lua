@@ -37,9 +37,8 @@ vim.keymap.set("n", "'", "`", default_opts)
 
 -- Change word under cursor and dot repeat, really useful to edit quickly
 vim.keymap.set("n", "c*", "*Ncgn", default_opts)
-vim.keymap.set("n", "c#", "#NcgN", default_opts)
 vim.keymap.set("n", "cg*", "g*Ncgn", default_opts)
-vim.keymap.set("n", "cg#", "g#Ncgn", default_opts)
+
 -- Experimental cn - New mappings
 -- like c* but selection word in visual mode first
 vim.keymap.set("n", "cn", "*``cgn", default_opts)
@@ -54,16 +53,23 @@ vim.keymap.set( "n", "<Leader>m", [[mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm]], { norema
 --Alternative to unimpaired to add spaces above or below
 vim.keymap.set( "n", "gO", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>", { desc = "Add blank line(s) above" })
 vim.keymap.set( "n", "go", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>", { desc = "Add blank line(s) below" })
+vim.keymap.set( "n", "(<space>", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>", { desc = "Add blank line(s) above" })
+vim.keymap.set( "n", ")<space>", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>", { desc = "Add blank line(s) below" })
 
+-- commenting
+vim.keymap.set("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
+vim.keymap.set("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
 ------------------------------------------------------------
 -- Search and Replace normal and visual mode
 ------------------------------------------------------------
 -- search replace
-vim.keymap.set("n", "<leader>r", ":%s/", { noremap = true, silent = false, desc = "Search and replace (local)" })
-vim.keymap.set("x", "<leader>r", [[:s/]], { noremap = true, silent = false, desc = "Search and replace (local)" })
+vim.keymap.set("n", "<leader>rr", ":%s/", { noremap = true, silent = false, desc = "Search and replace (local)" })
+vim.keymap.set("x", "<leader>rr", [[:s/]], { noremap = true, silent = false, desc = "Search and replace (local)" })
 
 -- replace the current text in search register
-vim.keymap.set( "n", "<leader>R", [[:%s/<C-r>//]], { noremap = true, silent = false, desc = "Replace Search register" })
+vim.keymap.set( "n", "<leader>rs", [[:%s/<C-r>//]], { noremap = true, silent = false, desc = "Replace Search register" })
+-- Search and replace the selected text
+vim.keymap.set("x", "<leader>rs", [[:<C-u>lua VisualSelection('replace','')<CR>]], {noremap = true, silent = false, desc = "Replace search selection (local)" })
 
 -- Put visual selection in search register
 function VisualSelection(direction, extra_filter)
@@ -81,8 +87,6 @@ function VisualSelection(direction, extra_filter)
   vim.fn.setreg('"', saved_reg)
 end
 
--- Search and replace the selected text
-vim.keymap.set("x", "<leader>R", [[:<C-u>lua VisualSelection('replace','')<CR>]], {noremap = true, silent = false, desc = "Replace search selection (local)" })
 
 -- QuickFix window toggle function
 function QuickFixToggle()
@@ -102,4 +106,13 @@ function QuickFixToggle()
   end
 end
 -- Toogle quickfix windows
-vim.keymap.set( "n", "<leader>a", ":lua QuickFixToggle()<cr>", { noremap = true, silent = true, desc = "Toggle Quickfix" })
+vim.keymap.set( "n", "<leader>a", ":lua QuickFixToggle()<cr>", { noremap = true, silent = true, desc = "Toggle Quickfix" })-- Labs from folke, try to map CapsLock to Control for this
+
+
+-- Experimental mappings
+vim.keymap.set("n", "<C-c>", function()
+  if vim.bo.buftype ~= "terminal" then
+    return "ciw"
+  end
+  return "<C-c>"
+end, { expr = true })
