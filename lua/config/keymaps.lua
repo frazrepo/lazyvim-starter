@@ -4,7 +4,6 @@
 
 local default_opts = { noremap = true, silent = true }
 
-
 --windows
 vim.keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
 vim.keymap.set("n", "<leader>=", "<C-W>v", { desc = "Split Window Right", remap = true })
@@ -50,13 +49,13 @@ vim.cmd([[
 -- Remove the Windows ^M - when the encodings gets messed up
 vim.keymap.set( "n", "<Leader>m", [[mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm]], { noremap = false, silent = true, desc = "Remove special char ^M" })
 
---Alternative to unimpaired to add spaces above or below
+-- Alternative to unimpaired to add spaces above or below
 vim.keymap.set( "n", "gO", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>", { desc = "Add blank line(s) above" })
 vim.keymap.set( "n", "go", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>", { desc = "Add blank line(s) below" })
 vim.keymap.set( "n", "(<space>", "<Cmd>call append(line('.') - 1, repeat([''], v:count1))<CR>", { desc = "Add blank line(s) above" })
 vim.keymap.set( "n", ")<space>", "<Cmd>call append(line('.'),     repeat([''], v:count1))<CR>", { desc = "Add blank line(s) below" })
 
--- commenting
+-- Commenting
 vim.keymap.set("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
 vim.keymap.set("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
 ------------------------------------------------------------
@@ -66,7 +65,7 @@ vim.keymap.set("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = 
 vim.keymap.set("n", "<leader>rr", ":%s/", { noremap = true, silent = false, desc = "Search and replace (local)" })
 vim.keymap.set("x", "<leader>rr", [[:s/]], { noremap = true, silent = false, desc = "Search and replace (local)" })
 
--- replace the current text in search register
+-- Replace the current text in search register
 vim.keymap.set( "n", "<leader>rs", [[:%s/<C-r>//]], { noremap = true, silent = false, desc = "Replace Search register" })
 -- Search and replace the selected text
 vim.keymap.set("x", "<leader>rs", [[:<C-u>lua VisualSelection('replace','')<CR>]], {noremap = true, silent = false, desc = "Replace search selection (local)" })
