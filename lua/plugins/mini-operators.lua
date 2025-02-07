@@ -2,7 +2,6 @@ return {
   -- minioperators  : Sort (gs), Replace with register (gr), Exchange text regions (gx/gxx), Multiply text (gm/gmm),
   {
     'echasnovski/mini.operators',
-    enabled = false,
     version = '*',
     vscode = true,
     opts = {},
