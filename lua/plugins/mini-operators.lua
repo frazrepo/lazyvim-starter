@@ -6,7 +6,7 @@ return {
     vscode = true,
     opts = {},
     keys = {
-      { "gs" , desc= "Sort text region" },
+      { "zs" , desc= "Sort text region" },
       { "gx" , desc= "Exchange text region" },
       { "gm" , desc= "Multiply text region" },
       { "gr" , desc= "Replace with register" },
